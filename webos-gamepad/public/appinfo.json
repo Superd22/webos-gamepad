@@ -1,0 +1,13 @@
+{
+  "id": "com.superd22.app.gamepads",
+  "version": "0.0.1",
+  "vendor": "Superd22",
+  "type": "web",
+  "main": "index.html",
+  "title": "GamePads",
+  "icon": "icon.png",
+  "requiredPermissions": [
+    "time.query",
+    "activity.operation"
+  ]
+}
