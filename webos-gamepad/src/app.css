@@ -30,6 +30,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1 {
@@ -42,10 +44,10 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 button {
@@ -62,8 +64,8 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+*:focus,
+*:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 

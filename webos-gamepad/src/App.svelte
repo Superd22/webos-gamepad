@@ -1,44 +1,35 @@
 <script lang="ts">
 import BluetoothFinder from "./lib/BluetoothFinder.svelte";
+import SpatialNavigation from "spatial-navigation-ts";
+SpatialNavigation.init();
+SpatialNavigation.add({
+  selector: '.focusable'
+});
+
+SpatialNavigation.makeFocusable();
+SpatialNavigation.focus();
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank"> 
-      <img src="vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank"> 
-      <img src="svelte.svg" class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>VITE + SVELTE SUR LA TELE</h1>
-
-  <div class="card">
+  <div class="top"></div>
+  <div class="middle">
     <BluetoothFinder></BluetoothFinder>
   </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <div class="bottom"></div>
 </main>
 
+
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
+  main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 10fr 2fr;
+    width: 100vw;
+    height: 100vh;
+    background: #2c3191;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+
+  .middle {
+    background: rgba(255, 255, 255, 0.8);
   }
 </style>
