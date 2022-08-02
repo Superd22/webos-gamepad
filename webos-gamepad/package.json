@@ -30,6 +30,7 @@
     "spatial-navigation-js": "^1.0.0",
     "spatial-navigation-ts": "^1.0.8",
     "svelte-material-icons": "^2.0.4",
+    "svelte-modals": "^1.1.0",
     "webostv-as-promised": "^1.1.1"
   }
 }

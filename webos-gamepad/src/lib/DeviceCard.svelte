@@ -1,8 +1,15 @@
 <script lang="ts">
   import type { Device } from "./interfaces/bluetooth-device.interface";
   import PlusThick from "svelte-material-icons/PlusThick.svelte";
-  import Gamepad from "svelte-material-icons/GoogleController.svelte"
+  import Gamepad from "svelte-material-icons/GoogleController.svelte";
+  import { openModal } from "svelte-modals";
+  import DeviceFinder from "./DeviceFinder.svelte";
+
   export let device: Device;
+
+  function pairNewDevice() {
+    openModal(DeviceFinder);
+  }
 </script>
 
 <div
@@ -10,12 +17,13 @@
   class:empty={!device}
   class:connected={device?.paired}
   tabindex="0"
+  on:click={!device ? pairNewDevice : (function () {})()}
 >
   {#if device}
-    <div class="title"></div>
+    <div class="title">Xbox Wireless Controller</div>
 
     <div class="icon">
-      <Gamepad></Gamepad>
+      <Gamepad />
     </div>
 
     <div class="details" />
@@ -28,17 +36,23 @@
 
 <style lang="scss">
   .device-card {
-    background-color: white;
+    background-color: #eee;
     border: 5px solid black;
-    width: 128px;
+    padding: 12px;
+    width: 188px - 12px * 2;
     display: flex;
-    height: 240px;
+    height: 340px;
     margin: 32px;
     opacity: 0.5;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+
+    .title {
+      font-size: 19px;
+    }
     .icon {
-      font-size: 3em
+      font-size: 5em;
     }
 
     &.connected {
@@ -46,13 +60,14 @@
     }
 
     &.empty {
-      background-color: rgb(163, 163, 163);
-      border: 5px solid black;
-      opacity: 1;
+      background-color: rgb(38 50 56);
+    border: 5px solid rgb(30 38 43);
+    opacity: 1;
+    color: #eee;
       .add {
         position: relative;
         display: flex;
-        color: #3b3b3b;
+        color: #eee;
         width: 100%;
         height: 100%;
         align-items: center;

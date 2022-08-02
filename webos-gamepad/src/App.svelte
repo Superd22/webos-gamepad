@@ -2,18 +2,18 @@
 import BluetoothFinder from "./lib/BluetoothFinder.svelte";
 import SpatialNavigation from "spatial-navigation-ts";
 import DeviceCard from "./lib/DeviceCard.svelte";
+import { Modals, closeModal } from 'svelte-modals'
+
 SpatialNavigation.init();
 SpatialNavigation.add({
   selector: '.focusable'
 });
-
 SpatialNavigation.makeFocusable();
 SpatialNavigation.focus();
 </script>
 
 <main>
   <div class="top">
-    <BluetoothFinder></BluetoothFinder>
   </div>
   <div class="middle">
     <DeviceCard></DeviceCard>
@@ -27,6 +27,10 @@ SpatialNavigation.focus();
 </main>
 
 
+<Modals>
+</Modals>
+
+
 <style>
   main {
     display: grid;
@@ -34,11 +38,11 @@ SpatialNavigation.focus();
     grid-template-rows: 3fr 10fr 2fr;
     width: 100vw;
     height: 100vh;
-    background: #2c3191;
+    background: #263238;
   }
 
   .middle {
-    background: rgba(255, 255, 255, 0.8);
+    background: #37474f;
     display: flex;
     justify-content: center;
   }
