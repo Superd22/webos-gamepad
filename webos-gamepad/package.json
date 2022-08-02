@@ -26,8 +26,10 @@
     "@vitejs/plugin-legacy": "^2.0.0",
     "node-sass": "7.0.1",
     "rxjs": "7.5.6",
+    "sass": "^1.54.0",
     "spatial-navigation-js": "^1.0.0",
     "spatial-navigation-ts": "^1.0.8",
+    "svelte-material-icons": "^2.0.4",
     "webostv-as-promised": "^1.1.1"
   }
 }

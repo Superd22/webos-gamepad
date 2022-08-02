@@ -17,11 +17,11 @@ SpatialNavigation.focus();
   </div>
   <div class="middle">
     <DeviceCard></DeviceCard>
-    <DeviceCard></DeviceCard>
-    <DeviceCard></DeviceCard>
-    <DeviceCard></DeviceCard>
-    <DeviceCard></DeviceCard>
-    <DeviceCard></DeviceCard>
+    <DeviceCard device="{({paired: true})}"></DeviceCard>
+    <DeviceCard device="{({})}"></DeviceCard>
+    <DeviceCard device="{({})}"></DeviceCard>
+    <DeviceCard device="{({})}"></DeviceCard>
+    <DeviceCard device="{({})}"></DeviceCard>
   </div>
   <div class="bottom"></div>
 </main>
@@ -39,5 +39,9 @@ SpatialNavigation.focus();
 
   .middle {
     background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
   }
+
+  
 </style>

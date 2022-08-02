@@ -7,6 +7,7 @@
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
 
   let devices: Device[] = [];
+  // test
   const request = bluetoothService
     .subscription("device/getStatus")
     .pipe(
