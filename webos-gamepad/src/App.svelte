@@ -1,6 +1,7 @@
 <script lang="ts">
 import BluetoothFinder from "./lib/BluetoothFinder.svelte";
 import SpatialNavigation from "spatial-navigation-ts";
+import DeviceCard from "./lib/DeviceCard.svelte";
 SpatialNavigation.init();
 SpatialNavigation.add({
   selector: '.focusable'
@@ -11,9 +12,16 @@ SpatialNavigation.focus();
 </script>
 
 <main>
-  <div class="top"></div>
-  <div class="middle">
+  <div class="top">
     <BluetoothFinder></BluetoothFinder>
+  </div>
+  <div class="middle">
+    <DeviceCard></DeviceCard>
+    <DeviceCard></DeviceCard>
+    <DeviceCard></DeviceCard>
+    <DeviceCard></DeviceCard>
+    <DeviceCard></DeviceCard>
+    <DeviceCard></DeviceCard>
   </div>
   <div class="bottom"></div>
 </main>

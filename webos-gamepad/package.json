@@ -24,7 +24,8 @@
   "dependencies": {
     "@procot/webostv": "^1.2.5",
     "@vitejs/plugin-legacy": "^2.0.0",
-    "rxjs": "^7.5.6",
+    "node-sass": "7.0.1",
+    "rxjs": "7.5.6",
     "spatial-navigation-js": "^1.0.0",
     "spatial-navigation-ts": "^1.0.8",
     "webostv-as-promised": "^1.1.1"
