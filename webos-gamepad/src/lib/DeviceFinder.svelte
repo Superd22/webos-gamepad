@@ -1,5 +1,31 @@
 <script lang="ts">
+  import { throwError } from "rxjs";
+  import { catchError, tap } from "rxjs/operators";
+  import SpatialNavigation from "spatial-navigation-ts";
+  import { onDestroy, onMount, afterUpdate } from "svelte";
   import { closeModal } from "svelte-modals";
+  import type { Device } from "./interfaces/bluetooth-device.interface";
+  import { WebOSService } from "./webos-service";
+
+  let pairables: Device[] = [];
+  const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
+
+  const deviceSub = bluetoothService
+    .subscription("device/getStatus")
+    .pipe(
+      tap((data) => {
+        pairables = (data["devices"] as Device[])
+          .filter((d) => d.paired === false)
+          .filter((d) => !!d.name);
+      })
+    )
+    .subscribe();
+
+  onMount(() => {});
+  onDestroy(() => {
+    deviceSub.unsubscribe();
+  });
+
 
   enum Step {
     Find,
@@ -12,18 +38,28 @@
   let step: Step = Step.Find;
 
   async function search() {
+    await bluetoothService.request("adapter/startDiscovery");
     isSearching = true;
-    setTimeout(() => (isSearching = false), 20000);
+    setTimeout(async () => {
+      await bluetoothService.request("adapter/cancelDiscovery");
+      isSearching = false;
+    }, 20000);
   }
 
-  async function pair() {
+  async function pair(device: Device) {
+    const pairing = bluetoothService.subscription("adapter/pair", {
+      address: device.address,
+      subscribe: true
+    }).subscribe(data => {
+      
+    })
     step = Step.DisplayCode;
   }
 
   search();
 </script>
 
-<div class="modal">
+<div class="modal focusableArea">
   {#if step === Step.Find}
     <div class="content">
       <h1>Pick a new device to sync with</h1>
@@ -43,43 +79,11 @@
       </button>
 
       <ul>
-        <li class="focusable" tabindex="0" on:click={pair}>
-          Xbox Wireless Controller
-        </li>
-        <li class="focusable" tabindex="0" on:click={closeModal}>Lime</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Bluetooth Keyboard</li>
-        <li class="focusable" tabindex="0">Actis Wireless Pro</li>
+        {#each pairables as pairable}
+          <li class="focusable" tabindex="0" on:click={() => pair(pairable)}>
+            {pairable.name}
+          </li>
+        {/each}
       </ul>
     </div>
   {/if}

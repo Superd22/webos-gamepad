@@ -15,12 +15,12 @@
 <div
   class="device-card focusable"
   class:empty={!device}
-  class:connected={device?.paired}
+  class:connected={device?.connectedProfiles?.length > 0}
   tabindex="0"
   on:click={!device ? pairNewDevice : (function () {})()}
 >
   {#if device}
-    <div class="title">Xbox Wireless Controller</div>
+    <div class="title">{device.name}</div>
 
     <div class="icon">
       <Gamepad />
@@ -38,6 +38,7 @@
   .device-card {
     background-color: #eee;
     border: 5px solid black;
+    color: #213547;
     padding: 12px;
     width: 188px - 12px * 2;
     display: flex;

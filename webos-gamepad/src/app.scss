@@ -104,10 +104,10 @@ button {
 button:hover {
   border-color: #646cff;
 }
-*:focus,
-*:focus-visible {
-  outline: 4px auto red;
-  border: 4px auto red;
+
+:focus {
+  outline: 2px solid green !important;
+  border: 2px solid green !important;
 }
 
 @media (prefers-color-scheme: light) {
