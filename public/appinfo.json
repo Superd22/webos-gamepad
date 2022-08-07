@@ -6,8 +6,5 @@
   "main": "index.html",
   "title": "GamePads",
   "icon": "icon.png",
-  "requiredPermissions": [
-    "time.query",
-    "activity.operation"
-  ]
+  "disableBackHistoryAPI": true
 }

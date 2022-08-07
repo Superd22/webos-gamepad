@@ -13,7 +13,6 @@
 
   let pairables: Device[] = [];
   let targetDevice: Device = null;
-  let isCancelling: boolean = false;
   let error: string = "";
 
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
@@ -65,15 +64,13 @@
       .subscribe((data) => {
         console.debug("Got pairing sub data", data);
         switch (data.request) {
-          case "request:endPairing": {
+          case "endPairing": {
             if (data.returnValue) {
               step = Step.Success;
             } else {
               step = Step.Error;
               error = `[${(data as any).errorCode}] ${(data as any).errorText}`;
             }
-
-            pairing.unsubscribe();
           }
           case "displayPinCode":
           case "displayPasskey": {
@@ -82,9 +79,11 @@
           case "confirmPassKey": {
             step = Step.ConfirmCode;
           }
+          default: {
+            step = Step.WaitingOn;
+          }
         }
       });
-    step = Step.DisplayCode;
   }
 
   async function exit() {
@@ -115,6 +114,13 @@
   }
 
   search();
+
+  function handleKeydown({ keyCode }) {
+    if (keyCode !== 461) return;
+
+    if (step === Step.Find) return exit();
+    else return newSync();
+  }
 </script>
 
 <div class="modal focusableArea">
@@ -189,6 +195,8 @@
     </div>
   {/if}
 </div>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <style lang="scss">
   .modal {
