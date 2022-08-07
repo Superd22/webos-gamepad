@@ -4,12 +4,19 @@
   import SpatialNavigation from "spatial-navigation-ts";
   import { onDestroy, onMount, afterUpdate } from "svelte";
   import { closeModal } from "svelte-modals";
+  import type {
+    Bluetooth2AdapterCancelPairingCallReturn,
+    Bluetooth2AdapterPairSubscription,
+  } from "webos-typings";
   import type { Device } from "./interfaces/bluetooth-device.interface";
   import { WebOSService } from "./webos-service";
 
   let pairables: Device[] = [];
-  const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
+  let targetDevice: Device = null;
+  let isCancelling: boolean = false;
+  let error: string = "";
 
+  const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
   const deviceSub = bluetoothService
     .subscription("device/getStatus")
     .pipe(
@@ -21,17 +28,17 @@
     )
     .subscribe();
 
-  onMount(() => {});
   onDestroy(() => {
     deviceSub.unsubscribe();
   });
 
-
   enum Step {
     Find,
+    WaitingOn,
     DisplayCode,
     ConfirmCode,
-    EnterCode,
+    Success,
+    Error,
   }
 
   let isSearching = false;
@@ -47,13 +54,64 @@
   }
 
   async function pair(device: Device) {
-    const pairing = bluetoothService.subscription("adapter/pair", {
-      address: device.address,
-      subscribe: true
-    }).subscribe(data => {
-      
-    })
+    targetDevice = device;
+    step = Step.WaitingOn;
+
+    const pairing = bluetoothService
+      .subscription<Bluetooth2AdapterPairSubscription>("adapter/pair", {
+        address: targetDevice.address,
+        subscribe: true,
+      })
+      .subscribe((data) => {
+        console.debug("Got pairing sub data", data);
+        switch (data.request) {
+          case "request:endPairing": {
+            if (data.returnValue) {
+              step = Step.Success;
+            } else {
+              step = Step.Error;
+              error = `[${(data as any).errorCode}] ${(data as any).errorText}`;
+            }
+
+            pairing.unsubscribe();
+          }
+          case "displayPinCode":
+          case "displayPasskey": {
+            step = Step.DisplayCode;
+          }
+          case "confirmPassKey": {
+            step = Step.ConfirmCode;
+          }
+        }
+      });
     step = Step.DisplayCode;
+  }
+
+  async function exit() {
+    closeModal();
+  }
+
+  async function newSync() {
+    await cancelPair();
+    targetDevice = null;
+    step = Step.Find;
+  }
+
+  async function retry() {
+    await cancelPair();
+    pair(targetDevice);
+  }
+
+  async function cancelPair() {
+    if (!targetDevice) return;
+
+    const abort =
+      await bluetoothService.request<Bluetooth2AdapterCancelPairingCallReturn>(
+        "adapter/cancelPairing",
+        {
+          address: targetDevice.address,
+        }
+      );
   }
 
   search();
@@ -70,7 +128,12 @@
       >
     </div>
     <div class="action">
-      <button class:active={isSearching} on:click={search}>
+      <button
+        class:active={isSearching}
+        on:click={search}
+        disabled={isSearching}
+        tabindex="0"
+      >
         {#if isSearching}
           Searching
         {:else}
@@ -88,18 +151,42 @@
     </div>
   {/if}
 
-  {#if step === Step.DisplayCode}
+  {#if step === Step.WaitingOn}
     <div class="content">
-      <h1>Pairing XBox Wireless Controller</h1>
-      <em
-        >Please make sure the code displayed below matches the one on your
-        device</em
-      >
-
-      <button class="code" disabled="true">CODE ABCDEF</button>
+      <h1>Pairing {targetDevice.name}</h1>
+      <em>Waiting...</em>
     </div>
 
-    <div class="action">wait</div>
+    <div class="action">
+      <button on:click={cancelPair}>Cancel</button>
+    </div>
+  {/if}
+
+  {#if step === Step.Error}
+    <div class="content">
+      <h1>Could not pair {targetDevice.name}</h1>
+      <em>Got an error while trying to pair your device</em>
+
+      <pre class="error">{error}</pre>
+    </div>
+
+    <div class="action">
+      <button on:click={retry}>Retry</button>
+      <button on:click={newSync}>Sync a new device</button>
+      <button on:click={exit}>Back to devices</button>
+    </div>
+  {/if}
+
+  {#if step === Step.Success}
+    <div class="content">
+      <h1>Sucesfully paired {targetDevice.name}!</h1>
+      <em>Device has been sucesfully paired with this TV</em>
+    </div>
+
+    <div class="action">
+      <button on:click={exit}>Back to devices</button>
+      <button on:click={newSync}>Sync a new device</button>
+    </div>
   {/if}
 </div>
 

@@ -8,18 +8,20 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "package": "npm run build && ares-package ./dist -o dist/"
+    "package": "npm run build && npx ares-package ./dist -o dist/"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "@tsconfig/svelte": "^3.0.0",
     "@types/webos-service": "^0.4.2",
+    "@webosose/ares-cli": "^2.3.1",
     "svelte": "^3.49.0",
     "svelte-check": "^2.8.0",
     "svelte-preprocess": "^4.10.7",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
-    "vite": "^3.0.0"
+    "vite": "^3.0.0",
+    "webos-typings": "^1.1.0"
   },
   "dependencies": {
     "@procot/webostv": "^1.2.5",
@@ -31,6 +33,7 @@
     "spatial-navigation-ts": "^1.0.8",
     "svelte-material-icons": "^2.0.4",
     "svelte-modals": "^1.1.0",
+    "ts-morph": "^15.1.0",
     "webostv-as-promised": "^1.1.1"
   }
 }

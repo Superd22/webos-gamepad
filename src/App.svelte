@@ -7,19 +7,18 @@
   import { catchError, tap, throwError } from "rxjs";
   import { afterUpdate } from "svelte";
 
+  let isModalShowing: boolean = false;
 
-  let isModalShowing: boolean = false
-  
-  action.subscribe(a => {
-    if (a === "push") isModalShowing = true
-    else isModalShowing = false
-  })
+  action.subscribe((a) => {
+    if (a === "push") isModalShowing = true;
+    else isModalShowing = false;
+  });
 
   function handleKeydown({ keyCode }) {
-    if (keyCode == '13') {
+    console.log("keydown", keyCode);
+    if (keyCode == "13") {
       document.activeElement.click();
     }
-
   }
 
   afterUpdate(() => {
@@ -53,7 +52,8 @@
       .sort((a, b) => {
         if (a.connectedProfiles?.length && !b.connectedProfiles?.length)
           return -1;
-        if (!a.connectedProfiles?.length && b.connectedProfiles?.length) return 1;
+        if (!a.connectedProfiles?.length && b.connectedProfiles?.length)
+          return 1;
         else return 0;
       })
       .filter((d) => d.paired);
@@ -67,14 +67,11 @@
     {#each getFilteredDevices(devices) as device}
       <DeviceCard {device} />
     {/each}
-
-
   </div>
   <div class="bottom" />
 </main>
 
 <Modals />
-
 
 <svelte:window on:keydown={handleKeydown} />
 

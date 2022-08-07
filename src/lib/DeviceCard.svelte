@@ -4,11 +4,21 @@
   import Gamepad from "svelte-material-icons/GoogleController.svelte";
   import { openModal } from "svelte-modals";
   import DeviceFinder from "./DeviceFinder.svelte";
+  import { WebOSService } from "./webos-service";
 
   export let device: Device;
+  const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
 
   function pairNewDevice() {
     openModal(DeviceFinder);
+  }
+
+  async function connect() {
+    const connect = await bluetoothService.request("hid/connect", {
+      address: device.address,
+    });
+
+    console.debug(connect);
   }
 </script>
 
@@ -17,7 +27,7 @@
   class:empty={!device}
   class:connected={device?.connectedProfiles?.length > 0}
   tabindex="0"
-  on:click={!device ? pairNewDevice : (function () {})()}
+  on:click={!device ? pairNewDevice : connect}
 >
   {#if device}
     <div class="title">{device.name}</div>
@@ -62,9 +72,9 @@
 
     &.empty {
       background-color: rgb(38 50 56);
-    border: 5px solid rgb(30 38 43);
-    opacity: 1;
-    color: #eee;
+      border: 5px solid rgb(30 38 43);
+      opacity: 1;
+      color: #eee;
       .add {
         position: relative;
         display: flex;
