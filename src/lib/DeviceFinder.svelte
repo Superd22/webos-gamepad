@@ -62,7 +62,7 @@
         subscribe: true,
       })
       .subscribe((data) => {
-        console.debug("Got pairing sub data", data);
+        console.debug("Got pairing sub data", data, data.request);
         switch (data.request) {
           case "endPairing": {
             if (data.returnValue) {
@@ -71,16 +71,19 @@
               step = Step.Error;
               error = `[${(data as any).errorCode}] ${(data as any).errorText}`;
             }
+            break;
           }
-          case "displayPinCode":
+          case "displayPinCode": {
+            step = Step.DisplayCode;
+            break;
+          }
           case "displayPasskey": {
             step = Step.DisplayCode;
+            break;
           }
           case "confirmPassKey": {
             step = Step.ConfirmCode;
-          }
-          default: {
-            step = Step.WaitingOn;
+            break;
           }
         }
       });
@@ -104,13 +107,15 @@
   async function cancelPair() {
     if (!targetDevice) return;
 
-    const abort =
-      await bluetoothService.request<Bluetooth2AdapterCancelPairingCallReturn>(
-        "adapter/cancelPairing",
-        {
-          address: targetDevice.address,
-        }
-      );
+    try {
+      const abort =
+        await bluetoothService.request<Bluetooth2AdapterCancelPairingCallReturn>(
+          "adapter/cancelPairing",
+          {
+            address: targetDevice.address,
+          }
+        );
+    } catch (e) {}
   }
 
   search();
@@ -177,9 +182,9 @@
     </div>
 
     <div class="action">
-      <button on:click={retry}>Retry</button>
-      <button on:click={newSync}>Sync a new device</button>
-      <button on:click={exit}>Back to devices</button>
+      <button on:click={retry} class="focusable">Retry</button>
+      <button on:click={newSync} class="focusable">Sync a new device</button>
+      <button on:click={exit} class="focusable">Back to devices</button>
     </div>
   {/if}
 
@@ -190,8 +195,8 @@
     </div>
 
     <div class="action">
-      <button on:click={exit}>Back to devices</button>
-      <button on:click={newSync}>Sync a new device</button>
+      <button on:click={exit} class="focusable">Back to devices</button>
+      <button on:click={newSync} class="focusable">Sync a new device</button>
     </div>
   {/if}
 </div>
