@@ -6,7 +6,7 @@ on:
       - "alpha"
 
 jobs:
-  build:
+  build-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -15,5 +15,7 @@ jobs:
           node-version: 16
           cache: 'npm'
       - run: npm ci
-      - name: Build app
-        run: npm run package
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

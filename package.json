@@ -1,7 +1,7 @@
 {
   "name": "webos-gamepad",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,10 +11,19 @@
     "package": "npm run build && npx ares-package ./dist -o dist/"
   },
   "devDependencies": {
+    "@google/semantic-release-replace-plugin": "^1.1.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.5",
+    "@semantic-release/release-notes-generator": "^10.0.3",
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "@tsconfig/svelte": "^3.0.0",
     "@types/webos-service": "^0.4.2",
     "@webosose/ares-cli": "^2.3.1",
+    "semantic-release": "^19.0.3",
+    "semantic-release-mirror-version": "^1.1.2",
     "svelte": "^3.49.0",
     "svelte-check": "^2.8.0",
     "svelte-preprocess": "^4.10.7",
