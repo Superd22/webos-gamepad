@@ -7,18 +7,13 @@ import { load } from 'cheerio'
 export default defineConfig({
   plugins: [
     legacy({ targets: 'Chrome 53', }),
-
     {
       name: 'Remove modern bundles',
       enforce: 'post',
       transformIndexHtml: {
-        // enforce: 'post',
         transform: (html, ctx) => {
-          const $ = load(html);
-          console.log("notice me wesh", html)
+          const $ = load(html)
           $("[type=module]").remove()
-
-          console.log($.html())
           return {
             html: $.html(),
             tags: []
