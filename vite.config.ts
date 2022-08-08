@@ -14,6 +14,7 @@ export default defineConfig({
         transform: (html, ctx) => {
           const $ = load(html)
           $("[type=module]").remove()
+          $("script").removeAttr('nomodule').removeAttr('crossorigin ')
           return {
             html: $.html(),
             tags: []
