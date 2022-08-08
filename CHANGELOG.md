@@ -1,3 +1,10 @@
+# [1.0.0-alpha.3](https://github.com/Superd22/webos-gamepad/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-08-08)
+
+
+### Bug Fixes
+
+* do not bundle modern javascript ([f9995b7](https://github.com/Superd22/webos-gamepad/commit/f9995b7e71c05e2ddf64652e3b2800059d8ab2df))
+
 # [1.0.0-alpha.2](https://github.com/Superd22/webos-gamepad/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-08-07)
 
 
