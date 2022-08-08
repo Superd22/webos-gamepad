@@ -22,6 +22,7 @@
     "@tsconfig/svelte": "^3.0.0",
     "@types/webos-service": "^0.4.2",
     "@webosose/ares-cli": "^2.3.1",
+    "cheerio": "^1.0.0-rc.12",
     "semantic-release": "^19.0.3",
     "semantic-release-mirror-version": "^1.1.2",
     "svelte": "^3.49.0",
