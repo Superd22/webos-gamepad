@@ -1,3 +1,10 @@
+# [1.0.0-alpha.4](https://github.com/Superd22/webos-gamepad/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-08-08)
+
+
+### Bug Fixes
+
+* remove crossorigin & nomodule tags ([b36de89](https://github.com/Superd22/webos-gamepad/commit/b36de897655f173e02b4efe4897c383afa09d864))
+
 # [1.0.0-alpha.3](https://github.com/Superd22/webos-gamepad/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-08-08)
 
 
