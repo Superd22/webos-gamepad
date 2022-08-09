@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@google/semantic-release-replace-plugin": "^1.1.0",
+    "@procot/webostv": "^1.2.5",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/exec": "^6.0.3",
@@ -23,18 +24,19 @@
     "@types/webos-service": "^0.4.2",
     "@webosose/ares-cli": "^2.3.1",
     "cheerio": "^1.0.0-rc.12",
+    "fs-promise": "^2.0.3",
     "semantic-release": "^19.0.3",
     "semantic-release-mirror-version": "^1.1.2",
     "svelte": "^3.49.0",
     "svelte-check": "^2.8.0",
     "svelte-preprocess": "^4.10.7",
+    "ts-node": "^10.9.1",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
     "vite": "^3.0.0",
     "webos-typings": "^1.1.0"
   },
   "dependencies": {
-    "@procot/webostv": "^1.2.5",
     "@vitejs/plugin-legacy": "^2.0.0",
     "node-sass": "7.0.1",
     "rxjs": "7.5.6",

@@ -1,0 +1,4 @@
+{
+  "name": "com.superd22.bluetooth-hid.service",
+  "main": "webos-gamepad.umd.cjs"
+}

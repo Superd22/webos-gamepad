@@ -73,7 +73,7 @@ module.exports = {
             "label": "WebOS App Manifest"
           },
           {
-            "path": "dist/com.superd22.app.gamepads_*.ipk",
+            "path": "dist/com.superd22.bluetooth-hid_*.ipk",
             "label": "WebOS IPK"
           }
         ]

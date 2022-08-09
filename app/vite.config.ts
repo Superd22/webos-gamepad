@@ -25,6 +25,8 @@ export default defineConfig({
     svelte(),
   ],
   build: {
+    outDir: "../dist/app",
+    emptyOutDir: true,
     rollupOptions: {
       external: ['webos-service']
     }

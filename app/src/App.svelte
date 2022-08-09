@@ -64,7 +64,6 @@
   <div class="top" />
   <div class="middle">
     <DeviceCard device={null} />
-    <DeviceCard device={{}} />
     {#each getFilteredDevices(devices) as device}
       <DeviceCard {device} />
     {/each}
