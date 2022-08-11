@@ -1,3 +1,10 @@
+# [1.0.0-alpha.5](https://github.com/Superd22/webos-gamepad/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-08-11)
+
+
+### Features
+
+* dynamic device icons ([4b3e57a](https://github.com/Superd22/webos-gamepad/commit/4b3e57a17c0972cc8230118782f439b3b6433628))
+
 # [1.0.0-alpha.4](https://github.com/Superd22/webos-gamepad/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-08-08)
 
 
