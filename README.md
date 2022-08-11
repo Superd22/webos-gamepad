@@ -5,7 +5,7 @@ WebOS App to pair with a Bluetooth HID (mouse, keyboard, gamepad...)
 ![Index](./screenshots/index.jpg)
 ![Pairing a device](./screenshots/pair.jpg)
 
-Currently in pre-alpha.
+Currently in alpha. Curious minds can start testing the app by downloading the IPK from [Github releases](https://github.com/Superd22/webos-gamepad/releases) before the initial release on the homebrew channel
 
 ## Features
 
@@ -13,8 +13,9 @@ Currently in pre-alpha.
   - [x] Direct pairing
   - [ ] Confirmation code/passkey
 - [x] Find your currently paired devices
-- [ ] Unpair devices
+- [x] Unpair devices
 - [x] Connect to a paired devices
-- [ ] Disconnect from a paired device
-- [x] HID can be used in natives app listing inputs (moonlight, retroarch...)
+- [x] Disconnect from a paired device
+- [~] HID can be used in natives app listing inputs (moonlight, retroarch...)
+  - [ ] Gamepads sometimes work sometimes don't
 - [ ] HID can be used in all apps (including web apps)
