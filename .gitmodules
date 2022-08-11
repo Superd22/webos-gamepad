@@ -1,0 +1,3 @@
+[submodule "services/web-input/src/vendor/nodejs-module-webos-service"]
+	path = services/web-input/src/vendor/nodejs-module-webos-service
+	url = https://github.com/webosose/nodejs-module-webos-service.git

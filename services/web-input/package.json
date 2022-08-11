@@ -1,0 +1,21 @@
+{
+  "name": "com.superd22.bluetoothhid.service",
+  "source": "src/index.ts",
+  "main": "index.js",
+  "peerDependencies": {
+    "webos-service": "1.0.0"
+  },
+  "targets": {
+    "main": false,
+    "default": {
+      "optimize": true,
+      "includeNodeModules": {
+        "webos-service": false
+      },
+      "engines": {
+        "node": "0.10"
+      },
+      "distDir": "../../dist/services/web-input"
+    }
+  }
+}

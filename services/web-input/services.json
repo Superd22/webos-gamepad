@@ -1,0 +1,20 @@
+{
+  "id": "com.superd22.bluetoothhid.service",
+  "description": "Helper service to manager bluetooth hid",
+  "services": [
+    {
+      "name": "com.superd22.bluetoothhid.service",
+      "description": "Helper service to manager bluetooth hid",
+      "commands": [
+        {
+          "name": "inputs/list",
+          "description": "Sample helloworld service"
+        },
+        {
+          "name": "inputs/get",
+          "description": "Sample helloworld service"
+        }
+      ]
+    }
+  ]
+}

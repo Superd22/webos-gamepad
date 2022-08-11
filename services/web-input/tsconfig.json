@@ -22,7 +22,12 @@
      */
     "allowJs": true,
     "checkJs": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "webos-services": [
+        "src/vendor/nodes-module-webos-service/lib/service"
+      ]
+    }
   },
   "include": [
     "src/**/*.d.ts",
