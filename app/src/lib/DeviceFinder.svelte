@@ -140,6 +140,7 @@
     </div>
     <div class="action">
       <button
+        class="focusable"
         class:active={isSearching}
         on:click={search}
         disabled={isSearching}

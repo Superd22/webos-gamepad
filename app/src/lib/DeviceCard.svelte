@@ -6,6 +6,7 @@
   import DeviceFinder from "./DeviceFinder.svelte";
   import { WebOSService } from "./webos-service";
   import SpatialNavigation from "spatial-navigation-ts";
+  import DeviceIcon from "./DeviceIcon.svelte";
 
   export let device: Device;
   let showMenu: boolean = false;
@@ -81,7 +82,7 @@
     <div class="title">{device.name}</div>
 
     <div class="icon">
-      <Gamepad />
+      <DeviceIcon {device} />
     </div>
 
     <div class="details" />
@@ -97,7 +98,9 @@
         tabindex="0"
         class="focusable"
         on:click={toggleConnect}
-        bind:this={menu}>Disconnect</button
+        bind:this={menu}
+      >
+        {device.connectedProfiles?.length ? "Disconnect" : "Connect"}</button
       >
       <button tabindex="0" class="focusable" on:click={unpair}>Unpair</button>
     </div>
@@ -158,6 +161,11 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      button {
+        margin: 0px 10px;
+        background: rgba(255, 255, 255, 0.5);
+      }
     }
   }
 </style>
