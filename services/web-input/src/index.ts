@@ -4,12 +4,8 @@ const service = new Service('com.superd22.bluetoothhid.service')
 
 
 service.register('inputs/list', async (message) => {
-  message.respond({
-    "coucou": "hello"
-  })
   try {
     const devices = readFileSync('/proc/bus/input/devices', { encoding: 'utf-8' })
-    console.log(devices)
     message.respond({
       devices
     })
@@ -18,5 +14,4 @@ service.register('inputs/list', async (message) => {
       error: e.toString()
     })
   }
-
 })
