@@ -9,13 +9,13 @@ module.exports = {
         "replacements": [
           {
             "files": [
-              "public/appinfo.json"
+              "app/public/appinfo.json"
             ],
             "from": "\"version\": \"[^\"]*\"",
             "to": "\"version\": \"${nextRelease.version}\"",
             "results": [
               {
-                "file": "public/appinfo.json",
+                "file": "app/public/appinfo.json",
                 "hasChanged": true,
                 "numMatches": 1,
                 "numReplacements": 1
@@ -25,7 +25,7 @@ module.exports = {
           },
           {
             "files": [
-              "public/appinfo.json"
+              "app/public/appinfo.json"
             ],
             "from": "\"version\": \"[^\"]*\"",
             "to": (matched) => {
@@ -35,7 +35,7 @@ module.exports = {
             },
             "results": [
               {
-                "file": "public/appinfo.json",
+                "file": "app/public/appinfo.json",
                 "hasChanged": true,
                 "numMatches": 1,
                 "numReplacements": 1
@@ -50,7 +50,7 @@ module.exports = {
       "@semantic-release/git",
       {
         "assets": [
-          "public/appinfo.json",
+          "app/public/appinfo.json",
           "package.json",
           "package-lock.json",
           "CHANGELOG.md"
@@ -69,7 +69,7 @@ module.exports = {
       {
         "assets": [
           {
-            "path": "dist/appinfo.json",
+            "path": "dist/app/appinfo.json",
             "label": "WebOS App Manifest"
           },
           {
