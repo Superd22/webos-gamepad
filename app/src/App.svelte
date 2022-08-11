@@ -14,9 +14,10 @@
     else isModalShowing = false;
   });
 
-  function handleKeydown({ keyCode }) {
-    console.log("keydown", keyCode);
-    if (keyCode == "13") {
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.keyCode == "13") {
+      event.stopImmediatePropagation();
+      event.preventDefault();
       document.activeElement.click();
     }
   }
