@@ -10,6 +10,7 @@
 
   export let device: Device;
   let showMenu: boolean = false;
+  let handlingCo = false;
   let menu;
   let card;
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
@@ -26,9 +27,11 @@
     console.debug(connect);
   }
 
-  function toggleMenu() {
+  function toggleMenu(event: MouseEvent) {
+    event.stopImmediatePropagation();
+    event.preventDefault();
     showMenu = !showMenu;
-    setTimeout(() => {
+    setImmediate(() => {
       menu.focus();
     });
   }
@@ -49,6 +52,7 @@
 
   async function toggleConnect(event: MouseEvent) {
     event.stopImmediatePropagation();
+    handlingCo = true;
     if (device.connectedProfiles.includes("hid")) {
       await bluetoothService.request("hid/disconnect", {
         address: device.address,
@@ -58,6 +62,8 @@
         address: device.address,
       });
     }
+
+    handlingCo = false;
   }
 
   async function unpair(event: MouseEvent) {
@@ -75,10 +81,11 @@
   class:connected={device?.connectedProfiles?.length > 0}
   tabindex={showMenu ? -1 : 0}
   on:focusout={focusOut}
-  on:click={!device ? pairNewDevice : toggleMenu}
+  on:click={(event) => (!device ? pairNewDevice(event) : toggleMenu(event))}
   bind:this={card}
 >
   {#if device}
+    <div class="overlay" />
     <div class="title">{device.name}</div>
 
     <div class="icon">
@@ -163,7 +170,7 @@
       justify-content: center;
 
       button {
-        margin: 0px 10px;
+        margin: 10px 5px;
         background: rgba(255, 255, 255, 0.5);
       }
     }
