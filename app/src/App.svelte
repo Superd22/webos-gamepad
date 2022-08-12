@@ -31,17 +31,127 @@
     SpatialNavigation.focus();
   });
 
-  let devices = [{} as Device];
-  /**
-   * Mocks
-   */
-  if (process.env.NODE_ENV === "dev")
-    devices = [
-      {
-        name: "Test",
-        classOfDevice: 7896,
-      } as Device,
-    ];
+  let devices = [
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+    process.env.NODE_ENV === "dev"
+      ? {
+          name: "Test",
+          classOfDevice: 7896,
+          paired: true,
+        }
+      : undefined,
+  ] as Device[];
 
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
   const request = bluetoothService
@@ -89,17 +199,22 @@
 
 <style>
   main {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 3fr 10fr 2fr;
+    display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
     background: #263238;
   }
 
+  .top {
+    height: 27%;
+  }
   .middle {
     background: #37474f;
+    height: 60%;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
   }
 </style>
