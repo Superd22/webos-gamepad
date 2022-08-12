@@ -19,19 +19,11 @@
     openModal(DeviceFinder);
   }
 
-  async function connect() {
-    const connect = await bluetoothService.request("hid/connect", {
-      address: device.address,
-    });
-
-    console.debug(connect);
-  }
-
   function toggleMenu(event: MouseEvent) {
     event.stopImmediatePropagation();
     event.preventDefault();
     showMenu = !showMenu;
-    setImmediate(() => {
+    setTimeout(() => {
       menu.focus();
     });
   }
@@ -109,6 +101,7 @@
       >
         {device.connectedProfiles?.length ? "Disconnect" : "Connect"}</button
       >
+
       <button tabindex="0" class="focusable" on:click={unpair}>Unpair</button>
     </div>
   {/if}

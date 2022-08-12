@@ -32,6 +32,17 @@
   });
 
   let devices = [{} as Device];
+  /**
+   * Mocks
+   */
+  if (process.env.NODE_ENV === "dev")
+    devices = [
+      {
+        name: "Test",
+        classOfDevice: 7896,
+      } as Device,
+    ];
+
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
   const request = bluetoothService
     .subscription("device/getStatus")
