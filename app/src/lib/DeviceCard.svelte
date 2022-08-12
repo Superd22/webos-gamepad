@@ -7,10 +7,12 @@
   import { WebOSService } from "./webos-service";
   import SpatialNavigation from "spatial-navigation-ts";
   import DeviceIcon from "./DeviceIcon.svelte";
+  import { catchError, Observable, of } from "rxjs";
+  import { toast } from "@zerodevx/svelte-toast";
 
   export let device: Device;
   let showMenu: boolean = false;
-  let handlingCo = false;
+  let connecting = false;
   let menu;
   let card;
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
@@ -34,7 +36,10 @@
     }
   ) {
     setTimeout(() => {
-      if (card.contains(document.activeElement) === true) {
+      if (
+        card.contains(document.activeElement) === true ||
+        document.activeElement.tagName.toLowerCase() === "body"
+      ) {
         event.stopImmediatePropagation();
         return;
       }
@@ -44,18 +49,34 @@
 
   async function toggleConnect(event: MouseEvent) {
     event.stopImmediatePropagation();
-    handlingCo = true;
-    if (device.connectedProfiles.includes("hid")) {
+    if (device.connectedProfiles?.includes("hid")) {
       await bluetoothService.request("hid/disconnect", {
         address: device.address,
       });
     } else {
-      await bluetoothService.request("hid/connect", {
-        address: device.address,
-      });
-    }
+      if (connecting) return;
+      connecting = true;
+      const co = bluetoothService
+        .subscription("hid/connect", {
+          address: device.address,
+        })
+        .pipe(catchError((error) => of(error)))
+        .subscribe((data) => {
+          if (data.errorCode) {
+            toast.push(data.errorText);
+            if (data.errorCode !== 128) {
+              connecting = false;
+            }
+          }
 
-    handlingCo = false;
+          if (data.returnValue) {
+            // Success!
+            connecting = false;
+          }
+
+          console.log("Connecting", data);
+        });
+    }
   }
 
   async function unpair(event: MouseEvent) {
@@ -99,8 +120,13 @@
         on:click={toggleConnect}
         bind:this={menu}
       >
-        {device.connectedProfiles?.length ? "Disconnect" : "Connect"}</button
-      >
+        {device.connectedProfiles?.length
+          ? "Disconnect"
+          : connecting
+          ? "Connecting"
+          : "Connect"}
+        {#if connecting}<span />{/if}
+      </button>
 
       <button tabindex="0" class="focusable" on:click={unpair}>Unpair</button>
     </div>
@@ -165,7 +191,31 @@
       button {
         margin: 10px 5px;
         background: rgba(255, 255, 255, 0.5);
+        span {
+          &:after {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            -webkit-animation: ellipsis steps(4, end) 3000ms infinite;
+            animation: ellipsis steps(4, end) 3000ms infinite;
+            content: "\2026"; /* ascii code for the ellipsis character */
+            width: 0px;
+            position: absolute;
+          }
+        }
       }
+    }
+  }
+
+  @keyframes ellipsis {
+    to {
+      width: 1.25em;
+    }
+  }
+
+  @-webkit-keyframes ellipsis {
+    to {
+      width: 1.25em;
     }
   }
 </style>

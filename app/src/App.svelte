@@ -2,6 +2,7 @@
   import SpatialNavigation from "spatial-navigation-ts";
   import DeviceCard from "./lib/DeviceCard.svelte";
   import { Modals, action } from "svelte-modals";
+  import { SvelteToast } from "@zerodevx/svelte-toast";
   import type { Device } from "./lib/interfaces/bluetooth-device.interface";
   import { WebOSService } from "./lib/webos-service";
   import { catchError, tap, throwError } from "rxjs";
@@ -151,7 +152,7 @@
           paired: true,
         }
       : undefined,
-  ] as Device[];
+  ].filter((d) => !!d) as Device[];
 
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
   const request = bluetoothService
@@ -192,6 +193,8 @@
   </div>
   <div class="bottom" />
 </main>
+
+<SvelteToast />
 
 <Modals />
 

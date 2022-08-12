@@ -25,6 +25,7 @@
     "@tsconfig/svelte": "^3.0.0",
     "@types/webos-service": "^0.4.2",
     "@webosose/ares-cli": "^2.3.1",
+    "@zerodevx/svelte-toast": "^0.7.2",
     "cheerio": "^1.0.0-rc.12",
     "fs-promise": "^2.0.3",
     "parcel": "^2.7.0",
