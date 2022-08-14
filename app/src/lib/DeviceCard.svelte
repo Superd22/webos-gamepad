@@ -4,18 +4,33 @@
   import Gamepad from "svelte-material-icons/GoogleController.svelte";
   import { openModal } from "svelte-modals";
   import DeviceFinder from "./DeviceFinder.svelte";
-  import { WebOSService } from "./webos-service";
   import SpatialNavigation from "spatial-navigation-ts";
   import DeviceIcon from "./DeviceIcon.svelte";
   import { catchError, Observable, of } from "rxjs";
   import { toast } from "@zerodevx/svelte-toast";
+  import type { Bluetooth2AdapterPairSubscription } from "webos-typings";
+  import { onMount } from "svelte";
+  import { WebOSService } from "./webos-service";
 
   export let device: Device;
   let showMenu: boolean = false;
-  let connecting = false;
   let menu;
   let card;
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
+
+  let status: { connected: boolean; connecting: boolean } = {
+    connected: false,
+    connecting: false,
+  };
+
+  onMount(() => {
+    if (!device) return;
+    bluetoothService
+      .subscription("hid/getStatus", { address: device.address })
+      .subscribe((data) => {
+        status = data;
+      });
+  });
 
   function pairNewDevice() {
     openModal(DeviceFinder);
@@ -47,31 +62,24 @@
     });
   }
 
-  async function toggleConnect(event: MouseEvent) {
-    event.stopImmediatePropagation();
+  async function toggleConnect(event?: MouseEvent) {
+    event?.stopImmediatePropagation();
     if (device.connectedProfiles?.includes("hid")) {
       await bluetoothService.request("hid/disconnect", {
         address: device.address,
       });
     } else {
-      if (connecting) return;
-      connecting = true;
       const co = bluetoothService
         .subscription("hid/connect", {
           address: device.address,
         })
         .pipe(catchError((error) => of(error)))
-        .subscribe((data) => {
+        .subscribe(async (data) => {
           if (data.errorCode) {
             toast.push(data.errorText);
-            if (data.errorCode !== 128) {
-              connecting = false;
-            }
           }
 
           if (data.returnValue) {
-            // Success!
-            connecting = false;
           }
 
           console.log("Connecting", data);
@@ -120,12 +128,12 @@
         on:click={toggleConnect}
         bind:this={menu}
       >
-        {device.connectedProfiles?.length
+        {status.connected
           ? "Disconnect"
-          : connecting
+          : status.connecting
           ? "Connecting"
           : "Connect"}
-        {#if connecting}<span />{/if}
+        {#if status.connecting}<span />{/if}
       </button>
 
       <button tabindex="0" class="focusable" on:click={unpair}>Unpair</button>
@@ -135,7 +143,7 @@
 
 <style lang="scss">
   .device-card {
-    background-color: #eee;
+    background-color: rgb(196, 196, 196);
     border: 5px solid black;
     color: #213547;
     padding: 12px;
