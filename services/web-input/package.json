@@ -1,5 +1,5 @@
 {
-  "name": "com.superd22.bluetoothhid.service2",
+  "name": "com.superd22.bluetoothhid.service3",
   "source": "src/index.ts",
   "main": "index.js",
   "peerDependencies": {

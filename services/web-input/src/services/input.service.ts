@@ -11,15 +11,14 @@ export class InputService {
   public readonly webBus: Subject<any> = new Subject()
 
   public register(eventInput: `event${number}`): void {
-    const input = new InputEvent(`/dev/input/${eventInput}`)
+    const input = new InputEvent.Keyboard(`/dev/input/${eventInput}`)
 
-    input.on('raw', (data) => {
+    input?.on('raw', (data) => {
       // @todo map to keyboard
-      this.webBus.next(data)
+      this.webBus?.next(data)
     })
-    input.on('data', (data) => {
-      // @todo map to keyboard
-      this.webBus.next(data)
+    input?.on('data', (data) => {
+      this.webBus?.next(data)
     })
   }
 
@@ -52,12 +51,3 @@ export interface Input {
   address: string
   handlers: string[]
 }
-
-
-const service = new InputService()
-
-service.register('event2')
-
-service.webBus.subscribe(data => {
-  console.log("coucou", data)
-})

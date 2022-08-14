@@ -7,17 +7,39 @@ export function WebOSService(name: string, opts?: ServiceOptions) {
 
     const impl = new constructor()
     const service = new Service(name)
-    endpoints.forEach(e => service.register(e.name, e.fn.bind(impl)))
+
+
+    console.log("Registering endpoints", endpoints)
+    const methods = endpoints?.map(e => service.register(
+      e.name,
+      e.fn.bind(impl),
+      e.subscribable ? e.fn.bind(impl) : undefined)
+    )
+
+    console.log("adding test")
+
+    service.register("test", (msg) => {
+
+      msg.respond({ data: "tas" })
+      setInterval(() => msg.respond({ anotherOne: 'yas' }), 1000)
+    }, (cncl) => {
+      cncl.respond({ cncl: "yas" })
+    })
+
   }
 }
 
-export function Endpoint(name: string, opts?: EndpointOptions) {
+export function Endpoint<IsSubscription extends boolean = false>(
+  name: string,
+  opts?: EndpointOptions<IsSubscription>
+) {
   return (prototype: any, fnName: string, descriptor?: PropertyDescriptor): void => {
     if (!prototype[SERVICE_ENDPOINT_META]) prototype[SERVICE_ENDPOINT_META] = []
 
     prototype
     prototype[SERVICE_ENDPOINT_META].push({
       name,
+      subscribable: !!opts?.subscribable,
       fn: prototype[fnName]
     })
     prototype
@@ -32,8 +54,12 @@ interface ServiceMeta {
 
 interface EndpointMeta {
   name: string,
+  subscribable: boolean
   fn: (message: Message) => Promise<void> | void
 }
 
-export interface EndpointOptions { }
+export interface EndpointOptions<IsSubscription extends boolean = false> {
+  subscribable?: IsSubscription
+}
+
 export interface ServiceOptions { }

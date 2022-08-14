@@ -6,8 +6,9 @@ import { ListInputCommand } from "./commands/list-inputs.command";
 import { RegisterInWebappCommand } from "./commands/register-in-webapp.command";
 import { InputService } from "./services/input.service";
 import { Container } from 'typedi'
+import { catchError, of } from "rxjs";
 
-@WebOSService('com.superd22.bluetoothhid.service')
+@WebOSService('com.superd22.bluetoothhid.service3')
 export class HIDBluetoothService {
 
   protected readonly inputs = Container.get(InputService)
@@ -63,12 +64,15 @@ export class HIDBluetoothService {
 
 
 
-  @Endpoint('web/keydown')
+  @Endpoint('web/keydown', { subscribable: true })
   public async listenForInputs(message: Message): Promise<void> {
     try {
-      const sub = this.inputs.webBus.subscribe((data) => {
+      const sub = this.inputs.webBus.pipe(
+        catchError((error) => of(error))
+      ).subscribe((data) => {
         message.respond({
-          data,
+          issou: true,
+          data: JSON.stringify(data),
         })
       })
 
