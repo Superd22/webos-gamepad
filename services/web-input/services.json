@@ -1,9 +1,9 @@
 {
-  "id": "com.superd22.bluetoothhid.service",
+  "id": "com.superd22.bluetoothhid.service2",
   "description": "Helper service to manager bluetooth hid",
   "services": [
     {
-      "name": "com.superd22.bluetoothhid.service",
+      "name": "com.superd22.bluetoothhid.service2",
       "description": "Helper service to manager bluetooth hid",
       "commands": [
         {

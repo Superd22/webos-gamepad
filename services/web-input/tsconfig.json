@@ -5,6 +5,8 @@
     "useDefineForClassFields": false,
     "preserveValueImports": false,
     "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "module": "CommonJS",
     "lib": [
       "ES2015",
@@ -24,8 +26,11 @@
     "checkJs": true,
     "isolatedModules": true,
     "paths": {
-      "webos-services": [
-        "src/vendor/nodes-module-webos-service/lib/service"
+      "webos-service-wrapper": [
+        "../webos-service-wrapper/"
+      ],
+      "webos-service-wrapper/*": [
+        "../webos-service-wrapper/*"
       ]
     }
   },
@@ -33,11 +38,15 @@
     "src/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.js",
-    "src/index.cts"
+    "src/index.cts",
+    "../webos-service-wrapper/src/webos-service-decorators.ts"
   ],
   "references": [
     {
       "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "../webos-service-wrapper/tsconfig.json"
     }
   ]
 }

@@ -1,9 +1,12 @@
 {
-  "name": "com.superd22.bluetoothhid.service",
+  "name": "com.superd22.bluetoothhid.service2",
   "source": "src/index.ts",
   "main": "index.js",
   "peerDependencies": {
     "webos-service": "1.0.0"
+  },
+  "alias": {
+    "webos-service-wrapper": "../webos-service-wrapper"
   },
   "targets": {
     "main": false,
