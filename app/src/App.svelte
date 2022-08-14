@@ -7,6 +7,7 @@
   import { WebOSService } from "./lib/webos-service";
   import { catchError, tap, throwError } from "rxjs";
   import { afterUpdate } from "svelte";
+  import type { Bluetooth2AdapterAwaitPairingRequestsSubscription } from "webos-typings";
 
   let isModalShowing: boolean = false;
 
@@ -155,6 +156,15 @@
   ].filter((d) => !!d) as Device[];
 
   const bluetoothService = new WebOSService("com.webos.service.bluetooth2");
+
+  const incoming = bluetoothService
+    .subscription<Bluetooth2AdapterAwaitPairingRequestsSubscription>(
+      "adapter/awaitPairingRequests"
+    )
+    .subscribe((data) => {
+      console.log("Incoming", data);
+    });
+
   const request = bluetoothService
     .subscription("device/getStatus")
     .pipe(

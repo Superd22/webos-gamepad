@@ -3,8 +3,11 @@
   "compilerOptions": {
     "target": "ES6",
     "useDefineForClassFields": true,
+    "esModuleInterop": true,
     "module": "ES6",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "resolveJsonModule": true,
     "baseUrl": ".",
     /**
@@ -15,8 +18,28 @@
      */
     "allowJs": true,
     "checkJs": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "webos-service-wrapper": [
+        "../services/webos-service-wrapper"
+      ],
+      "webos-service-wrapper/*": [
+        "../services/webos-service-wrapper/*"
+      ]
+    }
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.svelte"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "../services/webos-service-wrapper/tsconfig.json"
+    }
+  ]
 }

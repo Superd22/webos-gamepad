@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { throwError } from "rxjs";
+  import { of } from "rxjs";
   import { catchError, tap } from "rxjs/operators";
-  import SpatialNavigation from "spatial-navigation-ts";
-  import { onDestroy, onMount, afterUpdate } from "svelte";
+  import { onDestroy } from "svelte";
   import { closeModal } from "svelte-modals";
   import type {
     Bluetooth2AdapterCancelPairingCallReturn,
@@ -66,7 +65,26 @@
         switch (data.request) {
           case "endPairing": {
             if (data.returnValue) {
-              step = Step.Success;
+              // Now connect
+              const co = bluetoothService
+                .subscription("hid/connect", {
+                  address: device.address,
+                })
+                .pipe(catchError((error) => of(error)))
+                .subscribe(async (data) => {
+                  if (data.errorCode) {
+                    step = Step.Error;
+                    error = `[${(data as any).errorCode}] ${
+                      (data as any).errorText
+                    }`;
+                  }
+
+                  if (data.returnValue) {
+                    step = Step.Success;
+                  }
+
+                  console.log("Connecting", data);
+                });
             } else {
               step = Step.Error;
               error = `[${(data as any).errorCode}] ${(data as any).errorText}`;
@@ -142,6 +160,7 @@
       <button
         class="focusable"
         class:active={isSearching}
+        class:dotdotdot={isSearching}
         on:click={search}
         disabled={isSearching}
         tabindex="0"
@@ -166,11 +185,11 @@
   {#if step === Step.WaitingOn}
     <div class="content">
       <h1>Pairing {targetDevice.name}</h1>
-      <em>Waiting...</em>
+      <em>Waiting<span class="dotdotdot" /></em>
     </div>
 
     <div class="action">
-      <button on:click={cancelPair}>Cancel</button>
+      <button class="focusable" on:click={newSync} tabindex="0">Cancel</button>
     </div>
   {/if}
 
@@ -183,9 +202,13 @@
     </div>
 
     <div class="action">
-      <button on:click={retry} class="focusable">Retry</button>
-      <button on:click={newSync} class="focusable">Sync a new device</button>
-      <button on:click={exit} class="focusable">Back to devices</button>
+      <button on:click={retry} class="focusable" tabindex="0">Retry</button>
+      <button on:click={newSync} class="focusable" tabindex="0"
+        >Sync a new device</button
+      >
+      <button on:click={exit} class="focusable" tabindex="0"
+        >Back to devices</button
+      >
     </div>
   {/if}
 
@@ -196,8 +219,12 @@
     </div>
 
     <div class="action">
-      <button on:click={exit} class="focusable">Back to devices</button>
-      <button on:click={newSync} class="focusable">Sync a new device</button>
+      <button on:click={exit} class="focusable" tabindex="0"
+        >Back to devices</button
+      >
+      <button on:click={newSync} class="focusable" tabindex="0"
+        >Sync a new device</button
+      >
     </div>
   {/if}
 </div>
@@ -205,6 +232,18 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <style lang="scss">
+  .dotdotdot {
+    &:after {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      -webkit-animation: ellipsis steps(4, end) 3000ms infinite;
+      animation: ellipsis steps(4, end) 3000ms infinite;
+      content: "\2026"; /* ascii code for the ellipsis character */
+      width: 0px;
+      position: absolute;
+    }
+  }
   .modal {
     z-index: 99999;
     position: absolute;
@@ -263,16 +302,6 @@
 
       &.active {
         background: transparent;
-        &:after {
-          overflow: hidden;
-          display: inline-block;
-          vertical-align: bottom;
-          -webkit-animation: ellipsis steps(4, end) 3000ms infinite;
-          animation: ellipsis steps(4, end) 3000ms infinite;
-          content: "\2026"; /* ascii code for the ellipsis character */
-          width: 0px;
-          position: absolute;
-        }
       }
     }
 
