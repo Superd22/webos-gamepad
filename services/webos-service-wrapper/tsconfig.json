@@ -1,0 +1,35 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES3",
+    "useDefineForClassFields": false,
+    "composite": true,
+    "preserveValueImports": false,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "CommonJS",
+    "lib": [
+      "ES2015",
+      "ES2016",
+      "ES2017",
+      "ESNext"
+    ],
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": true,
+    "isolatedModules": true,
+    "paths": {
+      "webos-services": [
+        "src/vendor/nodes-module-webos-service/lib/service"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.js",
+  ],
+  "references": []
+}
