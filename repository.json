@@ -1,0 +1,16 @@
+{
+  "paging": {
+      "page": 1,
+      "count": 1,
+      "maxPage": 1,
+      "itemsTotal": 1
+  },
+  "packages": [
+      {
+          "id": "com.superd22.bluetoothhid",
+          "title": "Bluetooth gamepads",
+          "iconUri": "https://raw.githubusercontent.com/webosbrew/chocolate-doom/webos-tv/data/doom.png",
+          "manifestUrl": "https://github.com/Superd22/webos-gamepad/releases/download/v1.0.0-alpha.5/appinfo.json"
+      }
+  ]
+}
